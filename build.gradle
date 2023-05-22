@@ -5,14 +5,16 @@ plugins {
 group = 'br.com.edu'
 version = '1.0-SNAPSHOT'
 
+sourceCompatibility(JavaVersion.VERSION_17)
+
 repositories {
     mavenLocal()
     mavenCentral()
 }
 
 dependencies {
-    testImplementation platform('org.junit:junit-bom:5.9.1')
-    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.3'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.3'
 }
 
 test {
