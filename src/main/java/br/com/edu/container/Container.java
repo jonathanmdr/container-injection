@@ -22,13 +22,13 @@ public final class Container {
             instances.put(clazz, instance);
             injectDependencies(instance);
         } catch (final InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException ex) {
-            throw new RuntimeException("Failed to register bean: %s".formatted(clazz.getName()), ex);
+            throw new RuntimeException("Failed to register bean: %s".formatted(clazz.getSimpleName()), ex);
         }
     }
 
     public <T, I extends T> void register(final Class<T> abstraction, final Class<I> implementation) {
         if (!abstraction.isInterface() && isAbstraction(abstraction)) {
-            throw new IllegalArgumentException("The '%s' should be an interface or an abstract class".formatted(abstraction.getName()));
+            throw new IllegalArgumentException("The '%s' should be an interface or an abstract class".formatted(abstraction.getSimpleName()));
         }
 
         if (abstractions.containsKey(abstraction)) {
@@ -47,7 +47,7 @@ public final class Container {
             final Class<?> implementation = abstractions.get(clazz);
 
             if (implementation == null) {
-                throw new RuntimeException("The '%s' class is unregistered on the container".formatted(clazz.getName()));
+                throw new RuntimeException("The '%s' class is unregistered on the container".formatted(clazz.getSimpleName()));
             }
 
             try {
@@ -57,7 +57,7 @@ public final class Container {
                 instances.put(clazz, implementationInstance);
                 return implementationInstance;
             } catch (final InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException ex) {
-                throw new RuntimeException("Cannot instantiate the class: %s".formatted(clazz.getName()));
+                throw new RuntimeException("Cannot instantiate the class: %s".formatted(clazz.getSimpleName()));
             }
         }
 
@@ -72,7 +72,7 @@ public final class Container {
         final Constructor<?>[] constructors = clazz.getDeclaredConstructors();
 
         if (constructors.length > 1) {
-            throw new IllegalStateException("The '%s' class should be have one constructor only".formatted(clazz.getName()));
+            throw new IllegalStateException("The '%s' class should be have one constructor only".formatted(clazz.getSimpleName()));
         }
 
         final Constructor<?> constructor = constructors[0];
