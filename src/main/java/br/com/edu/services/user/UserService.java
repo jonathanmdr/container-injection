@@ -10,8 +10,8 @@ public class UserService {
         this.notification = notification;
     }
 
-    public void registerUser(final String name, final String email) {
-        this.notification.send(email, String.format("Hello %s, welcome to the container injection example!", name));
+    public void registerUser(final String name, final String recipient) {
+        this.notification.send(recipient, String.format("Hello %s, welcome to the container injection example!", name));
     }
 
 }
