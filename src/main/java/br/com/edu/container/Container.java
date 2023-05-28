@@ -43,25 +43,25 @@ public final class Container {
         @SuppressWarnings("unchecked")
         final T instance = (T) instances.get(clazz);
 
-        if (instance == null) {
-            final Class<?> implementation = abstractions.get(clazz);
-
-            if (implementation == null) {
-                throw new RuntimeException("The '%s' class is unregistered on the container".formatted(clazz.getSimpleName()));
-            }
-
-            try {
-                @SuppressWarnings("unchecked")
-                final T implementationInstance = (T) newInstance(implementation);
-                injectDependencies(implementationInstance);
-                instances.put(clazz, implementationInstance);
-                return implementationInstance;
-            } catch (final InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException ex) {
-                throw new RuntimeException("Cannot instantiate the class: %s".formatted(clazz.getSimpleName()));
-            }
+        if (instance != null) {
+            return instance;
         }
 
-        return instance;
+        final Class<?> implementation = abstractions.get(clazz);
+
+        if (implementation == null) {
+            throw new RuntimeException("The '%s' class is unregistered on the container".formatted(clazz.getSimpleName()));
+        }
+
+        try {
+            @SuppressWarnings("unchecked")
+            final T implementationInstance = (T) newInstance(implementation);
+            injectDependencies(implementationInstance);
+            instances.put(clazz, implementationInstance);
+            return implementationInstance;
+        } catch (final InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException ex) {
+            throw new RuntimeException("Cannot instantiate the class: %s".formatted(clazz.getSimpleName()));
+        }
     }
 
     private boolean isAbstraction(final Class<?> clazz) {
