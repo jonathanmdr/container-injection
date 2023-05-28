@@ -27,7 +27,7 @@ public final class Container {
     }
 
     public <T, I extends T> void register(final Class<T> abstraction, final Class<I> implementation) {
-        if (!abstraction.isInterface() && isAbstraction(abstraction)) {
+        if (!abstraction.isInterface() && isNotAbstractClass(abstraction)) {
             throw new IllegalArgumentException("The '%s' should be an interface or an abstract class".formatted(abstraction.getSimpleName()));
         }
 
@@ -64,7 +64,7 @@ public final class Container {
         }
     }
 
-    private boolean isAbstraction(final Class<?> clazz) {
+    private boolean isNotAbstractClass(final Class<?> clazz) {
         return (clazz.getModifiers() & Modifier.ABSTRACT) == 0;
     }
 
